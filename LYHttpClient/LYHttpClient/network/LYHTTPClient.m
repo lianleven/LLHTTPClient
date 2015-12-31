@@ -10,7 +10,8 @@
 #import <YYCache/YYCache.h>
 #import "NSJSONSerialization+LYJSON.h"
 static NSString * const LYHTTPClientURLString = @"https://api.app.net/";
-static NSString * const LYHTTPClientRequestCache = @"LYHTTPClientRequestCache";
+NSString * const LYHTTPClientRequestCache = @"LYHTTPClientRequestCache";
+static NSTimeInterval const LYHTTPClientTimeoutInterval = 30;
 typedef NS_ENUM(NSUInteger, LYHTTPClientRequestType) {
     LYHTTPClientRequestTypeGET = 0,
     LYHTTPClientRequestTypePOST,
@@ -23,34 +24,37 @@ typedef NS_ENUM(NSUInteger, LYHTTPClientRequestType) {
                    parameters:(id)parameters
                       success:(void (^)(NSURLSessionDataTask *task, id responseObject))success
                       failure:(void (^)(NSURLSessionDataTask *task, NSError *error))failure{
-    return [self requestMethod:LYHTTPClientRequestTypeGET urlString:URLString parameters:parameters cachePolicy:LYHTTPClientReturnCacheDataThenLoad success:success failure:failure];
+    return [self requestMethod:LYHTTPClientRequestTypeGET urlString:URLString parameters:parameters timeoutInterval:LYHTTPClientTimeoutInterval cachePolicy:LYHTTPClientReturnCacheDataThenLoad success:success failure:failure];
 }
 + (NSURLSessionDataTask *)GET:(NSString *)URLString
                    parameters:(id)parameters
+              timeoutInterval:(NSTimeInterval)timeoutInterval
                   cachePolicy:(LYHTTPClientRequestCachePolicy)cachePolicy
                       success:(void (^)(NSURLSessionDataTask *task, id responseObject))success
                       failure:(void (^)(NSURLSessionDataTask *task, NSError *error))failure{
-    return [self requestMethod:LYHTTPClientRequestTypeGET urlString:URLString parameters:parameters cachePolicy:cachePolicy success:success failure:failure];
+    return [self requestMethod:LYHTTPClientRequestTypeGET urlString:URLString parameters:parameters timeoutInterval:timeoutInterval cachePolicy:cachePolicy success:success failure:failure];
 }
 //优先使用缓存
 + (NSURLSessionDataTask *)POST:(NSString *)URLString
                     parameters:(id)parameters
                        success:(void (^)(NSURLSessionDataTask *task, id responseObject))success
                        failure:(void (^)(NSURLSessionDataTask *task, NSError *error))failure{
-    return [self requestMethod:LYHTTPClientRequestTypePOST urlString:URLString parameters:parameters cachePolicy:LYHTTPClientReturnCacheDataThenLoad success:success failure:failure];
+    return [self requestMethod:LYHTTPClientRequestTypePOST urlString:URLString parameters:parameters timeoutInterval:LYHTTPClientTimeoutInterval cachePolicy:LYHTTPClientReturnCacheDataThenLoad success:success failure:failure];
 }
 + (NSURLSessionDataTask *)POST:(NSString *)URLString
                    parameters:(id)parameters
+              timeoutInterval:(NSTimeInterval)timeoutInterval
                   cachePolicy:(LYHTTPClientRequestCachePolicy)cachePolicy
                       success:(void (^)(NSURLSessionDataTask *task, id responseObject))success
                       failure:(void (^)(NSURLSessionDataTask *task, NSError *error))failure{
-    return [self requestMethod:LYHTTPClientRequestTypePOST urlString:URLString parameters:parameters cachePolicy:cachePolicy success:success failure:failure];
+    return [self requestMethod:LYHTTPClientRequestTypePOST urlString:URLString parameters:parameters timeoutInterval:timeoutInterval cachePolicy:cachePolicy success:success failure:failure];
 }
 
 #pragma mark - private
 + (NSURLSessionDataTask *)requestMethod:(LYHTTPClientRequestType)type
                               urlString:(NSString *)URLString
                              parameters:(id)parameters
+                        timeoutInterval:(NSTimeInterval)timeoutInterval
                             cachePolicy:(LYHTTPClientRequestCachePolicy)cachePolicy
                                 success:(void (^)(NSURLSessionDataTask *task, id responseObject))success
                       failure:(void (^)(NSURLSessionDataTask *task, NSError *error))failure{
@@ -100,19 +104,24 @@ typedef NS_ENUM(NSUInteger, LYHTTPClientRequestType) {
             break;
         }
     }
-    return [self requestMethod:type urlString:URLString parameters:parameters cache:cache cacheKey:cacheKey success:success failure:failure];
+    return [self requestMethod:type urlString:URLString parameters:parameters timeoutInterval:timeoutInterval cache:cache cacheKey:cacheKey success:success failure:failure];
     
 }
 + (NSURLSessionDataTask *)requestMethod:(LYHTTPClientRequestType)type
                               urlString:(NSString *)URLString
                              parameters:(id)parameters
+                        timeoutInterval:(NSTimeInterval)timeoutInterval
                                   cache:(YYCache *)cache
                                cacheKey:(NSString *)cacheKey
                                 success:(void (^)(NSURLSessionDataTask *task, id responseObject))success
                                 failure:(void (^)(NSURLSessionDataTask *task, NSError *error))failure{
+     LYHTTPClient *manager = [LYHTTPClient sharedClient];
+     [manager.requestSerializer willChangeValueForKey:@"timeoutInterval"];
+     manager.requestSerializer.timeoutInterval = timeoutInterval;
+     [manager.requestSerializer didChangeValueForKey:@"timeoutInterval"];
     switch (type) {
         case LYHTTPClientRequestTypeGET:{
-            return [[LYHTTPClient sharedClient] GET:URLString parameters:parameters success:^(NSURLSessionDataTask * _Nonnull task, id  _Nonnull responseObject) {
+            return [manager GET:URLString parameters:parameters success:^(NSURLSessionDataTask * _Nonnull task, id  _Nonnull responseObject) {
                 if ([responseObject isKindOfClass:[NSData class]]) {
                     responseObject = [NSJSONSerialization objectWithJSONData:responseObject];
                 }
@@ -124,7 +133,7 @@ typedef NS_ENUM(NSUInteger, LYHTTPClientRequestType) {
             break;
         }
         case LYHTTPClientRequestTypePOST:{
-            return [[LYHTTPClient sharedClient] POST:URLString parameters:parameters success:^(NSURLSessionDataTask * _Nonnull task, id  _Nonnull responseObject) {
+            return [manager POST:URLString parameters:parameters success:^(NSURLSessionDataTask * _Nonnull task, id  _Nonnull responseObject) {
                 if ([responseObject isKindOfClass:[NSData class]]) {
                     responseObject = [NSJSONSerialization objectWithJSONData:responseObject];
                 }
@@ -159,7 +168,7 @@ typedef NS_ENUM(NSUInteger, LYHTTPClientRequestType) {
     static LYHTTPClient *sharedClient = nil;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
-        [LYHTTPClient client];
+        sharedClient = [LYHTTPClient client];
         
     });
     return sharedClient;
@@ -167,5 +176,6 @@ typedef NS_ENUM(NSUInteger, LYHTTPClientRequestType) {
 + (instancetype)client{
     NSURLSessionConfiguration *configuration = [NSURLSessionConfiguration defaultSessionConfiguration];
    return [[LYHTTPClient alloc] initWithBaseURL:[NSURL URLWithString:LYHTTPClientURLString] sessionConfiguration:configuration];
+    
 }
 @end

@@ -3,6 +3,7 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9051"/>
+        <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
     </dependencies>
     <scenes>
         <!--View Controller-->
@@ -18,18 +19,28 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="GZW-kZ-xCU">
-                                <rect key="frame" x="285" y="285" width="30" height="30"/>
+                                <rect key="frame" x="270" y="210" width="60" height="30"/>
                                 <animations/>
-                                <state key="normal" title="test"/>
+                                <state key="normal" title="测试接口"/>
                                 <connections>
                                     <action selector="tezt:" destination="BYZ-38-t0r" eventType="touchUpInside" id="7oj-SQ-yuR"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="WdL-x9-Rrp">
+                                <rect key="frame" x="270" y="285" width="60" height="30"/>
+                                <animations/>
+                                <state key="normal" title="清除缓存"/>
+                                <connections>
+                                    <action selector="clearCache:" destination="BYZ-38-t0r" eventType="touchUpInside" id="cXE-qY-TDZ"/>
                                 </connections>
                             </button>
                         </subviews>
                         <animations/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="GZW-kZ-xCU" firstAttribute="centerY" secondItem="8bC-Xf-vdC" secondAttribute="centerY" id="GNk-KT-pt4"/>
+                            <constraint firstItem="WdL-x9-Rrp" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="8yb-Zi-Hfb"/>
+                            <constraint firstItem="WdL-x9-Rrp" firstAttribute="centerY" secondItem="8bC-Xf-vdC" secondAttribute="centerY" id="98S-bf-4ne"/>
+                            <constraint firstItem="GZW-kZ-xCU" firstAttribute="centerY" secondItem="8bC-Xf-vdC" secondAttribute="centerY" multiplier="3:4" id="GNk-KT-pt4"/>
                             <constraint firstItem="GZW-kZ-xCU" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="SUL-Y0-MLl"/>
                         </constraints>
                     </view>
@@ -37,7 +48,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1021" y="417"/>
+            <point key="canvasLocation" x="866" y="417"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="0ks-Gi-kf5">

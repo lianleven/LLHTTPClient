@@ -8,6 +8,8 @@
 
 #import "ViewController.h"
 #import "GlobalTimelineViewController.h"
+#import <YYCache/YYCache.h>
+#import "LYHTTPClient.h"
 @interface ViewController ()
 
 @end
@@ -23,6 +25,13 @@
     [self.navigationController pushViewController:[GlobalTimelineViewController new] animated:YES];
 }
 
+- (IBAction)clearCache:(id)sender {
+    [[[YYCache alloc] initWithName:LYHTTPClientRequestCache] removeAllObjectsWithProgressBlock:nil endBlock:^(BOOL error) {
+        if (!error) {
+            NSLog(@"清除成功");
+        }
+    }];
+}
 
 
 @end
