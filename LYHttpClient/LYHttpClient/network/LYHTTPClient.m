@@ -58,12 +58,13 @@ typedef NS_ENUM(NSUInteger, LYHTTPClientRequestType) {
                             cachePolicy:(LYHTTPClientRequestCachePolicy)cachePolicy
                                 success:(void (^)(NSURLSessionDataTask *task, id responseObject))success
                       failure:(void (^)(NSURLSessionDataTask *task, NSError *error))failure{
+    URLString = URLString.length?URLString:@"";
     NSString *cacheKey = URLString;
     if (parameters) {
         if (![NSJSONSerialization isValidJSONObject:parameters]) return nil;//参数不是json类型
         NSData *data = [NSJSONSerialization dataWithJSONObject:parameters options:NSJSONWritingPrettyPrinted error:nil];
         NSString *paramStr = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
-        cacheKey = [URLString stringByAppendingString:paramStr];
+        cacheKey = [cacheKey stringByAppendingString:paramStr];
     }
     
     YYCache *cache = [[YYCache alloc] initWithName:LYHTTPClientRequestCache];
