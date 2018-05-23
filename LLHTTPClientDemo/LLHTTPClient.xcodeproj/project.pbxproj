@@ -15,11 +15,11 @@
 		5C185CF020B51936005C5E1D /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 5C185CD720B51936005C5E1D /* main.m */; };
 		5C185CF120B51936005C5E1D /* Post.m in Sources */ = {isa = PBXBuildFile; fileRef = 5C185CDA20B51936005C5E1D /* Post.m */; };
 		5C185CF220B51936005C5E1D /* User.m in Sources */ = {isa = PBXBuildFile; fileRef = 5C185CDC20B51936005C5E1D /* User.m */; };
-		5C185CF320B51936005C5E1D /* LLHTTPClient.m in Sources */ = {isa = PBXBuildFile; fileRef = 5C185CDF20B51936005C5E1D /* LLHTTPClient.m */; };
-		5C185CF420B51936005C5E1D /* NSJSONSerialization+LLJSON.m in Sources */ = {isa = PBXBuildFile; fileRef = 5C185CE120B51936005C5E1D /* NSJSONSerialization+LLJSON.m */; };
 		5C185CF520B51936005C5E1D /* AFAppDotNetAPIClient.m in Sources */ = {isa = PBXBuildFile; fileRef = 5C185CE420B51936005C5E1D /* AFAppDotNetAPIClient.m */; };
 		5C185CF620B51936005C5E1D /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5C185CE620B51936005C5E1D /* ViewController.m */; };
 		5C185CF720B51936005C5E1D /* PostTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 5C185CE920B51936005C5E1D /* PostTableViewCell.m */; };
+		5C185CFD20B51B9D005C5E1D /* LLHTTPClient.m in Sources */ = {isa = PBXBuildFile; fileRef = 5C185CFA20B51B9C005C5E1D /* LLHTTPClient.m */; };
+		5C185CFE20B51B9D005C5E1D /* NSJSONSerialization+LLJSON.m in Sources */ = {isa = PBXBuildFile; fileRef = 5C185CFC20B51B9C005C5E1D /* NSJSONSerialization+LLJSON.m */; };
 		807474B943BC0BC5CC52449F /* libPods-LLHTTPClient.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 21946805CBE4969D2DEE5794 /* libPods-LLHTTPClient.a */; };
 /* End PBXBuildFile section */
 
@@ -60,16 +60,16 @@
 		5C185CDA20B51936005C5E1D /* Post.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Post.m; sourceTree = "<group>"; };
 		5C185CDB20B51936005C5E1D /* User.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = User.h; sourceTree = "<group>"; };
 		5C185CDC20B51936005C5E1D /* User.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = User.m; sourceTree = "<group>"; };
-		5C185CDE20B51936005C5E1D /* LLHTTPClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LLHTTPClient.h; sourceTree = "<group>"; };
-		5C185CDF20B51936005C5E1D /* LLHTTPClient.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LLHTTPClient.m; sourceTree = "<group>"; };
-		5C185CE020B51936005C5E1D /* NSJSONSerialization+LLJSON.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSJSONSerialization+LLJSON.h"; sourceTree = "<group>"; };
-		5C185CE120B51936005C5E1D /* NSJSONSerialization+LLJSON.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSJSONSerialization+LLJSON.m"; sourceTree = "<group>"; };
 		5C185CE320B51936005C5E1D /* AFAppDotNetAPIClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFAppDotNetAPIClient.h; sourceTree = "<group>"; };
 		5C185CE420B51936005C5E1D /* AFAppDotNetAPIClient.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AFAppDotNetAPIClient.m; sourceTree = "<group>"; };
 		5C185CE520B51936005C5E1D /* ViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
 		5C185CE620B51936005C5E1D /* ViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
 		5C185CE820B51936005C5E1D /* PostTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PostTableViewCell.h; sourceTree = "<group>"; };
 		5C185CE920B51936005C5E1D /* PostTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PostTableViewCell.m; sourceTree = "<group>"; };
+		5C185CF920B51B9C005C5E1D /* LLHTTPClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LLHTTPClient.h; sourceTree = "<group>"; };
+		5C185CFA20B51B9C005C5E1D /* LLHTTPClient.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LLHTTPClient.m; sourceTree = "<group>"; };
+		5C185CFB20B51B9C005C5E1D /* NSJSONSerialization+LLJSON.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSJSONSerialization+LLJSON.h"; sourceTree = "<group>"; };
+		5C185CFC20B51B9C005C5E1D /* NSJSONSerialization+LLJSON.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSJSONSerialization+LLJSON.m"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -121,6 +121,7 @@
 		5C185CCB20B51936005C5E1D /* LLHTTPClient */ = {
 			isa = PBXGroup;
 			children = (
+				5C185CF820B51B9C005C5E1D /* LLHTTPClient */,
 				5C185CCC20B51936005C5E1D /* AppDelegate.h */,
 				5C185CCD20B51936005C5E1D /* AppDelegate.m */,
 				5C185CCE20B51936005C5E1D /* Assets.xcassets */,
@@ -130,7 +131,6 @@
 				5C185CD620B51936005C5E1D /* Info.plist */,
 				5C185CD720B51936005C5E1D /* main.m */,
 				5C185CD820B51936005C5E1D /* Models */,
-				5C185CDD20B51936005C5E1D /* network */,
 				5C185CE220B51936005C5E1D /* Networking Extensions */,
 				5C185CE520B51936005C5E1D /* ViewController.h */,
 				5C185CE620B51936005C5E1D /* ViewController.m */,
@@ -159,17 +159,6 @@
 			path = Models;
 			sourceTree = "<group>";
 		};
-		5C185CDD20B51936005C5E1D /* network */ = {
-			isa = PBXGroup;
-			children = (
-				5C185CDE20B51936005C5E1D /* LLHTTPClient.h */,
-				5C185CDF20B51936005C5E1D /* LLHTTPClient.m */,
-				5C185CE020B51936005C5E1D /* NSJSONSerialization+LLJSON.h */,
-				5C185CE120B51936005C5E1D /* NSJSONSerialization+LLJSON.m */,
-			);
-			path = network;
-			sourceTree = "<group>";
-		};
 		5C185CE220B51936005C5E1D /* Networking Extensions */ = {
 			isa = PBXGroup;
 			children = (
@@ -186,6 +175,18 @@
 				5C185CE920B51936005C5E1D /* PostTableViewCell.m */,
 			);
 			path = Views;
+			sourceTree = "<group>";
+		};
+		5C185CF820B51B9C005C5E1D /* LLHTTPClient */ = {
+			isa = PBXGroup;
+			children = (
+				5C185CF920B51B9C005C5E1D /* LLHTTPClient.h */,
+				5C185CFA20B51B9C005C5E1D /* LLHTTPClient.m */,
+				5C185CFB20B51B9C005C5E1D /* NSJSONSerialization+LLJSON.h */,
+				5C185CFC20B51B9C005C5E1D /* NSJSONSerialization+LLJSON.m */,
+			);
+			name = LLHTTPClient;
+			path = ../../LLHTTPClient;
 			sourceTree = "<group>";
 		};
 		64F15F1E0FF705F5039B1CFA /* Pods */ = {
@@ -363,13 +364,13 @@
 				5C185CF620B51936005C5E1D /* ViewController.m in Sources */,
 				5C185CF520B51936005C5E1D /* AFAppDotNetAPIClient.m in Sources */,
 				5C185CF220B51936005C5E1D /* User.m in Sources */,
-				5C185CF420B51936005C5E1D /* NSJSONSerialization+LLJSON.m in Sources */,
 				5C185CEE20B51936005C5E1D /* GlobalTimelineViewController.m in Sources */,
-				5C185CF320B51936005C5E1D /* LLHTTPClient.m in Sources */,
 				5C185CF020B51936005C5E1D /* main.m in Sources */,
 				5C185CEA20B51936005C5E1D /* AppDelegate.m in Sources */,
 				5C185CF120B51936005C5E1D /* Post.m in Sources */,
+				5C185CFE20B51B9D005C5E1D /* NSJSONSerialization+LLJSON.m in Sources */,
 				5C185CF720B51936005C5E1D /* PostTableViewCell.m in Sources */,
+				5C185CFD20B51B9D005C5E1D /* LLHTTPClient.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
