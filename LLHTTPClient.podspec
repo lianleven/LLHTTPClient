@@ -19,7 +19,7 @@
   s.summary      = '基于AFNetworking3.0，实现简单的缓存'
   s.homepage     = 'https://github.com/lianleven/LLHTTPClient'
   s.license      = { :type => 'MIT', :file => 'LICENSE' }
-  s.author       = { 'lianleven' => 'lianleven@163.com' }
+  s.author       = { 'lianleven' => 'lianleven@gmail.com' }
   s.platform     = :ios, '7.0'
   s.source       = { :git => 'https://github.com/lianleven/LLHTTPClient.git', :tag => '0.0.1' }
   s.source_files  = 'LLHTTPClient/*.{h,m}'
