@@ -15,13 +15,13 @@
   Pod::Spec.new do |s|
 
   s.name         = 'LLHTTPClient'
-  s.version      = '0.0.2'
+  s.version      = '0.0.3'
   s.summary      = '基于AFNetworking3.0，实现简单的缓存'
   s.homepage     = 'https://github.com/lianleven/LLHTTPClient'
   s.license      = { :type => 'MIT', :file => 'LICENSE' }
   s.author       = { 'lianleven' => 'lianleven@gmail.com' }
   s.platform     = :ios, '7.0'
-  s.source       = { :git => 'https://github.com/lianleven/LLHTTPClient.git', :tag => '0.0.1' }
+  s.source       = { :git => 'https://github.com/lianleven/LLHTTPClient.git', :tag => s.version.to_s }
   s.source_files  = 'LLHTTPClient/*.{h,m}'
   s.requires_arc = true
   s.dependency "AFNetworking", "~> 3.1.0"
