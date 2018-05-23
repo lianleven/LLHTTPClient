@@ -1,6 +1,6 @@
 //
-//  LYHttpClientUITests.m
-//  LYHttpClientUITests
+//  LLHTTPClientUITests.m
+//  LLHTTPClientUITests
 //
 //  Created by LianLeven on 15/12/28.
 //  Copyright © 2015年 LianLeven. All rights reserved.
@@ -8,11 +8,11 @@
 
 #import <XCTest/XCTest.h>
 
-@interface LYHttpClientUITests : XCTestCase
+@interface LLHTTPClientUITests : XCTestCase
 
 @end
 
-@implementation LYHttpClientUITests
+@implementation LLHTTPClientUITests
 
 - (void)setUp {
     [super setUp];

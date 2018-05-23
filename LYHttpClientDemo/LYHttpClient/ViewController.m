@@ -1,6 +1,6 @@
 //
 //  ViewController.m
-//  LYHttpClient
+//  LLHTTPClient
 //
 //  Created by LianLeven on 15/12/28.
 //  Copyright © 2015年 LianLeven. All rights reserved.
@@ -26,7 +26,7 @@
 }
 
 - (IBAction)clearCache:(id)sender {
-    [[[YYCache alloc] initWithName:LYHTTPClientRequestCache] removeAllObjectsWithProgressBlock:nil endBlock:^(BOOL error) {
+    [[[YYCache alloc] initWithName:LLHTTPClientRequestCache] removeAllObjectsWithProgressBlock:nil endBlock:^(BOOL error) {
         if (!error) {
             NSLog(@"清除成功");
         }

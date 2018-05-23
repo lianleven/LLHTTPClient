@@ -1,6 +1,6 @@
 //
-//  LYHTTPClient.m
-//  LYHttpClient
+//  LLHTTPClient.m
+//  LLHTTPClient
 //
 //  Created by LianLeven on 15/12/28.
 //  Copyright © 2015年 LianLeven. All rights reserved.
@@ -9,12 +9,12 @@
 #import "LLHTTPClient.h"
 #import <YYCache/YYCache.h>
 #import "NSJSONSerialization+LYJSON.h"
-static NSString * const LYHTTPClientURLString = @"https://api.app.net/";
-NSString * const LYHTTPClientRequestCache = @"LYHTTPClientRequestCache";
-static NSTimeInterval const LYHTTPClientTimeoutInterval = 30;
-typedef NS_ENUM(NSUInteger, LYHTTPClientRequestType) {
-    LYHTTPClientRequestTypeGET = 0,
-    LYHTTPClientRequestTypePOST,
+static NSString * const LLHTTPClientURLString = @"https://api.app.net/";
+NSString * const LLHTTPClientRequestCache = @"LLHTTPClientRequestCache";
+static NSTimeInterval const LLHTTPClientTimeoutInterval = 30;
+typedef NS_ENUM(NSUInteger, LLHTTPClientRequestType) {
+    LLHTTPClientRequestTypeGET = 0,
+    LLHTTPClientRequestTypePOST,
 };
 @implementation LLHTTPClient
 
@@ -24,38 +24,38 @@ typedef NS_ENUM(NSUInteger, LYHTTPClientRequestType) {
                    parameters:(id)parameters
                       success:(void (^)(NSURLSessionDataTask *task, id responseObject))success
                       failure:(void (^)(NSURLSessionDataTask *task, NSError *error))failure{
-    return [self requestMethod:LYHTTPClientRequestTypeGET urlString:URLString parameters:parameters timeoutInterval:LYHTTPClientTimeoutInterval cachePolicy:LYHTTPClientReturnCacheDataThenLoad success:success failure:failure];
+    return [self requestMethod:LLHTTPClientRequestTypeGET urlString:URLString parameters:parameters timeoutInterval:LLHTTPClientTimeoutInterval cachePolicy:LLHTTPClientReturnCacheDataThenLoad success:success failure:failure];
 }
 + (NSURLSessionDataTask *)GET:(NSString *)URLString
                    parameters:(id)parameters
               timeoutInterval:(NSTimeInterval)timeoutInterval
-                  cachePolicy:(LYHTTPClientRequestCachePolicy)cachePolicy
+                  cachePolicy:(LLHTTPClientRequestCachePolicy)cachePolicy
                       success:(void (^)(NSURLSessionDataTask *task, id responseObject))success
                       failure:(void (^)(NSURLSessionDataTask *task, NSError *error))failure{
-    return [self requestMethod:LYHTTPClientRequestTypeGET urlString:URLString parameters:parameters timeoutInterval:timeoutInterval cachePolicy:cachePolicy success:success failure:failure];
+    return [self requestMethod:LLHTTPClientRequestTypeGET urlString:URLString parameters:parameters timeoutInterval:timeoutInterval cachePolicy:cachePolicy success:success failure:failure];
 }
 //优先使用缓存
 + (NSURLSessionDataTask *)POST:(NSString *)URLString
                     parameters:(id)parameters
                        success:(void (^)(NSURLSessionDataTask *task, id responseObject))success
                        failure:(void (^)(NSURLSessionDataTask *task, NSError *error))failure{
-    return [self requestMethod:LYHTTPClientRequestTypePOST urlString:URLString parameters:parameters timeoutInterval:LYHTTPClientTimeoutInterval cachePolicy:LYHTTPClientReturnCacheDataThenLoad success:success failure:failure];
+    return [self requestMethod:LLHTTPClientRequestTypePOST urlString:URLString parameters:parameters timeoutInterval:LLHTTPClientTimeoutInterval cachePolicy:LLHTTPClientReturnCacheDataThenLoad success:success failure:failure];
 }
 + (NSURLSessionDataTask *)POST:(NSString *)URLString
                    parameters:(id)parameters
               timeoutInterval:(NSTimeInterval)timeoutInterval
-                  cachePolicy:(LYHTTPClientRequestCachePolicy)cachePolicy
+                  cachePolicy:(LLHTTPClientRequestCachePolicy)cachePolicy
                       success:(void (^)(NSURLSessionDataTask *task, id responseObject))success
                       failure:(void (^)(NSURLSessionDataTask *task, NSError *error))failure{
-    return [self requestMethod:LYHTTPClientRequestTypePOST urlString:URLString parameters:parameters timeoutInterval:timeoutInterval cachePolicy:cachePolicy success:success failure:failure];
+    return [self requestMethod:LLHTTPClientRequestTypePOST urlString:URLString parameters:parameters timeoutInterval:timeoutInterval cachePolicy:cachePolicy success:success failure:failure];
 }
 
 #pragma mark - private
-+ (NSURLSessionDataTask *)requestMethod:(LYHTTPClientRequestType)type
++ (NSURLSessionDataTask *)requestMethod:(LLHTTPClientRequestType)type
                               urlString:(NSString *)URLString
                              parameters:(id)parameters
                         timeoutInterval:(NSTimeInterval)timeoutInterval
-                            cachePolicy:(LYHTTPClientRequestCachePolicy)cachePolicy
+                            cachePolicy:(LLHTTPClientRequestCachePolicy)cachePolicy
                                 success:(void (^)(NSURLSessionDataTask *task, id responseObject))success
                       failure:(void (^)(NSURLSessionDataTask *task, NSError *error))failure{
     URLString = URLString.length?URLString:@"";
@@ -67,7 +67,7 @@ typedef NS_ENUM(NSUInteger, LYHTTPClientRequestType) {
         cacheKey = [cacheKey stringByAppendingString:paramStr];
     }
     
-    YYCache *cache = [[YYCache alloc] initWithName:LYHTTPClientRequestCache];
+    YYCache *cache = [[YYCache alloc] initWithName:LLHTTPClientRequestCache];
     cache.memoryCache.shouldRemoveAllObjectsOnMemoryWarning = YES;
     cache.memoryCache.shouldRemoveAllObjectsWhenEnteringBackground = YES;
     
@@ -77,24 +77,24 @@ typedef NS_ENUM(NSUInteger, LYHTTPClientRequestType) {
     
     
     switch (cachePolicy) {
-        case LYHTTPClientReturnCacheDataThenLoad: {//先返回缓存，同时请求
+        case LLHTTPClientReturnCacheDataThenLoad: {//先返回缓存，同时请求
             if (object) {
                 success(nil,object);
             }
             break;
         }
-        case LYHTTPClientReloadIgnoringLocalCacheData: {//忽略本地缓存直接请求
+        case LLHTTPClientReloadIgnoringLocalCacheData: {//忽略本地缓存直接请求
             //不做处理，直接请求
             break;
         }
-        case LYHTTPClientReturnCacheDataElseLoad: {//有缓存就返回缓存，没有就请求
+        case LLHTTPClientReturnCacheDataElseLoad: {//有缓存就返回缓存，没有就请求
             if (object) {//有缓存
                 success(nil,object);
                 return nil;
             }
             break;
         }
-        case LYHTTPClientReturnCacheDataDontLoad: {//有缓存就返回缓存,从不请求（用于没有网络）
+        case LLHTTPClientReturnCacheDataDontLoad: {//有缓存就返回缓存,从不请求（用于没有网络）
             if (object) {//有缓存
                 success(nil,object);
                 
@@ -108,7 +108,7 @@ typedef NS_ENUM(NSUInteger, LYHTTPClientRequestType) {
     return [self requestMethod:type urlString:URLString parameters:parameters timeoutInterval:timeoutInterval cache:cache cacheKey:cacheKey success:success failure:failure];
     
 }
-+ (NSURLSessionDataTask *)requestMethod:(LYHTTPClientRequestType)type
++ (NSURLSessionDataTask *)requestMethod:(LLHTTPClientRequestType)type
                               urlString:(NSString *)URLString
                              parameters:(id)parameters
                         timeoutInterval:(NSTimeInterval)timeoutInterval
@@ -121,7 +121,7 @@ typedef NS_ENUM(NSUInteger, LYHTTPClientRequestType) {
      manager.requestSerializer.timeoutInterval = timeoutInterval;
      [manager.requestSerializer didChangeValueForKey:@"timeoutInterval"];
     switch (type) {
-        case LYHTTPClientRequestTypeGET:{
+        case LLHTTPClientRequestTypeGET:{
             return [manager GET:URLString parameters:parameters progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
                 if ([responseObject isKindOfClass:[NSData class]]) {
                     responseObject = [NSJSONSerialization objectWithJSONData:responseObject];
@@ -133,7 +133,7 @@ typedef NS_ENUM(NSUInteger, LYHTTPClientRequestType) {
             }];
             break;
         }
-        case LYHTTPClientRequestTypePOST:{
+        case LLHTTPClientRequestTypePOST:{
             return [manager POST:URLString parameters:parameters progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
                 if ([responseObject isKindOfClass:[NSData class]]) {
                     responseObject = [NSJSONSerialization objectWithJSONData:responseObject];
@@ -176,7 +176,7 @@ typedef NS_ENUM(NSUInteger, LYHTTPClientRequestType) {
 }
 + (instancetype)client{
     NSURLSessionConfiguration *configuration = [NSURLSessionConfiguration defaultSessionConfiguration];
-   return [[LLHTTPClient alloc] initWithBaseURL:[NSURL URLWithString:LYHTTPClientURLString] sessionConfiguration:configuration];
+   return [[LLHTTPClient alloc] initWithBaseURL:[NSURL URLWithString:LLHTTPClientURLString] sessionConfiguration:configuration];
     
 }
 @end
