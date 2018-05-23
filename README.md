@@ -1,4 +1,4 @@
-#LYHTTPClient
+##LLHTTPClient
 最近很多人问一些基于AFNetworking3.0网络请求的封装，其实不用真的不用封装，唯一需要封装的地方就是客户端做缓存，统一把所有请求做了缓存接口。缓存用的是YYCache。基于AFNetworking的demo
 
 添加了设置超时时间。可以自由设置超时时间和缓存方式

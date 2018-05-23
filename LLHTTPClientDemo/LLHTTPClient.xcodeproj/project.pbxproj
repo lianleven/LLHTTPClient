@@ -12,7 +12,6 @@
 		5C185CEC20B51936005C5E1D /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5C185CCF20B51936005C5E1D /* LaunchScreen.storyboard */; };
 		5C185CED20B51936005C5E1D /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5C185CD120B51936005C5E1D /* Main.storyboard */; };
 		5C185CEE20B51936005C5E1D /* GlobalTimelineViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5C185CD520B51936005C5E1D /* GlobalTimelineViewController.m */; };
-		5C185CEF20B51936005C5E1D /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 5C185CD620B51936005C5E1D /* Info.plist */; };
 		5C185CF020B51936005C5E1D /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 5C185CD720B51936005C5E1D /* main.m */; };
 		5C185CF120B51936005C5E1D /* Post.m in Sources */ = {isa = PBXBuildFile; fileRef = 5C185CDA20B51936005C5E1D /* Post.m */; };
 		5C185CF220B51936005C5E1D /* User.m in Sources */ = {isa = PBXBuildFile; fileRef = 5C185CDC20B51936005C5E1D /* User.m */; };
@@ -313,7 +312,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				5C185CEF20B51936005C5E1D /* Info.plist in Resources */,
 				5C185CED20B51936005C5E1D /* Main.storyboard in Resources */,
 				5C185CEB20B51936005C5E1D /* Assets.xcassets in Resources */,
 				5C185CEC20B51936005C5E1D /* LaunchScreen.storyboard in Resources */,
