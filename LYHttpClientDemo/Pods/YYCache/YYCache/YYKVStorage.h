@@ -11,17 +11,20 @@
 
 #import <Foundation/Foundation.h>
 
+NS_ASSUME_NONNULL_BEGIN
+
 /**
  YYKVStorageItem is used by `YYKVStorage` to store key-value pair and meta data.
+ Typically, you should not use this class directly.
  */
 @interface YYKVStorageItem : NSObject
-@property (nonatomic, strong) NSString *key;        ///< key
-@property (nonatomic, strong) NSData *value;        ///< value
-@property (nonatomic, strong) NSString *filename;   ///< filename (nil if inline)
-@property (nonatomic, assign) int size;             ///< value's size in bytes
-@property (nonatomic, assign) int modTime;          ///< modification unix timestamp
-@property (nonatomic, assign) int accessTime;       ///< last access unix timestamp
-@property (nonatomic, strong) NSData *extendedData; ///< extended data (nil if no extended data)
+@property (nonatomic, strong) NSString *key;                ///< key
+@property (nonatomic, strong) NSData *value;                ///< value
+@property (nullable, nonatomic, strong) NSString *filename; ///< filename (nil if inline)
+@property (nonatomic) int size;                             ///< value's size in bytes
+@property (nonatomic) int modTime;                          ///< modification unix timestamp
+@property (nonatomic) int accessTime;                       ///< last access unix timestamp
+@property (nullable, nonatomic, strong) NSData *extendedData; ///< extended data (nil if no extended data)
 @end
 
 /**
@@ -56,12 +59,13 @@ typedef NS_ENUM(NSUInteger, YYKVStorageType) {
 
 /**
  YYKVStorage is a key-value storage based on sqlite and file system.
+ Typically, you should not use this class directly.
  
  @discussion The designated initializer for YYKVStorage is `initWithPath:type:`. 
  After initialized, a directory is created based on the `path` to hold key-value data.
  Once initialized you should not read or write this directory without the instance.
  
- You may compile the lastest version of sqlite and ignore the libsqlite3.dylib in
+ You may compile the latest version of sqlite and ignore the libsqlite3.dylib in
  iOS system to get 2x~4x speed up.
  
  @warning The instance of this class is *NOT* thread safe, you need to make sure 
@@ -78,7 +82,7 @@ typedef NS_ENUM(NSUInteger, YYKVStorageType) {
 
 @property (nonatomic, readonly) NSString *path;        ///< The path of this storage.
 @property (nonatomic, readonly) YYKVStorageType type;  ///< The type of this storage.
-@property (nonatomic, assign) BOOL errorLogsEnabled;   ///< Set `YES` to enable error logs for debug.
+@property (nonatomic) BOOL errorLogsEnabled;           ///< Set `YES` to enable error logs for debug.
 
 #pragma mark - Initializer
 ///=============================================================================
@@ -98,7 +102,7 @@ typedef NS_ENUM(NSUInteger, YYKVStorageType) {
  @return  A new storage object, or nil if an error occurs.
  @warning Multiple instances with the same path will make the storage unstable.
  */
-- (instancetype)initWithPath:(NSString *)path type:(YYKVStorageType)type NS_DESIGNATED_INITIALIZER;
+- (nullable instancetype)initWithPath:(NSString *)path type:(YYKVStorageType)type NS_DESIGNATED_INITIALIZER;
 
 
 #pragma mark - Save Items
@@ -153,8 +157,8 @@ typedef NS_ENUM(NSUInteger, YYKVStorageType) {
  */
 - (BOOL)saveItemWithKey:(NSString *)key
                   value:(NSData *)value
-               filename:(NSString *)filename
-           extendedData:(NSData *)extendedData;
+               filename:(nullable NSString *)filename
+           extendedData:(nullable NSData *)extendedData;
 
 #pragma mark - Remove Items
 ///=============================================================================
@@ -176,7 +180,7 @@ typedef NS_ENUM(NSUInteger, YYKVStorageType) {
  
  @return Whether succeed.
  */
-- (BOOL)removeItemForKeys:(NSArray *)keys;
+- (BOOL)removeItemForKeys:(NSArray<NSString *> *)keys;
 
 /**
  Remove all items which `value` is larger than a specified size.
@@ -230,8 +234,8 @@ typedef NS_ENUM(NSUInteger, YYKVStorageType) {
  @param progress This block will be invoked during removing, pass nil to ignore.
  @param end      This block will be invoked at the end, pass nil to ignore.
  */
-- (void)removeAllItemsWithProgressBlock:(void(^)(int removedCount, int totalCount))progress
-                               endBlock:(void(^)(BOOL error))end;
+- (void)removeAllItemsWithProgressBlock:(nullable void(^)(int removedCount, int totalCount))progress
+                               endBlock:(nullable void(^)(BOOL error))end;
 
 
 #pragma mark - Get Items
@@ -245,7 +249,7 @@ typedef NS_ENUM(NSUInteger, YYKVStorageType) {
  @param key A specified key.
  @return Item for the key, or nil if not exists / error occurs.
  */
-- (YYKVStorageItem *)getItemForKey:(NSString *)key;
+- (nullable YYKVStorageItem *)getItemForKey:(NSString *)key;
 
 /**
  Get item information with a specified key.
@@ -254,7 +258,7 @@ typedef NS_ENUM(NSUInteger, YYKVStorageType) {
  @param key A specified key.
  @return Item information for the key, or nil if not exists / error occurs.
  */
-- (YYKVStorageItem *)getItemInfoForKey:(NSString *)key;
+- (nullable YYKVStorageItem *)getItemInfoForKey:(NSString *)key;
 
 /**
  Get item value with a specified key.
@@ -262,7 +266,7 @@ typedef NS_ENUM(NSUInteger, YYKVStorageType) {
  @param key  A specified key.
  @return Item's value, or nil if not exists / error occurs.
  */
-- (NSData *)getItemValueForKey:(NSString *)key;
+- (nullable NSData *)getItemValueForKey:(NSString *)key;
 
 /**
  Get items with an array of keys.
@@ -270,7 +274,7 @@ typedef NS_ENUM(NSUInteger, YYKVStorageType) {
  @param keys  An array of specified keys.
  @return An array of `YYKVStorageItem`, or nil if not exists / error occurs.
  */
-- (NSArray *)getItemForKeys:(NSArray *)keys;
+- (nullable NSArray<YYKVStorageItem *> *)getItemForKeys:(NSArray<NSString *> *)keys;
 
 /**
  Get item infomartions with an array of keys.
@@ -279,7 +283,7 @@ typedef NS_ENUM(NSUInteger, YYKVStorageType) {
  @param keys  An array of specified keys.
  @return An array of `YYKVStorageItem`, or nil if not exists / error occurs.
  */
-- (NSArray *)getItemInfoForKeys:(NSArray *)keys;
+- (nullable NSArray<YYKVStorageItem *> *)getItemInfoForKeys:(NSArray<NSString *> *)keys;
 
 /**
  Get items value with an array of keys.
@@ -288,7 +292,7 @@ typedef NS_ENUM(NSUInteger, YYKVStorageType) {
  @return A dictionary which key is 'key' and value is 'value', or nil if not 
     exists / error occurs.
  */
-- (NSDictionary *)getItemValueForKeys:(NSArray *)keys;
+- (nullable NSDictionary<NSString *, NSData *> *)getItemValueForKeys:(NSArray<NSString *> *)keys;
 
 #pragma mark - Get Storage Status
 ///=============================================================================
@@ -317,3 +321,5 @@ typedef NS_ENUM(NSUInteger, YYKVStorageType) {
 - (int)getItemsSize;
 
 @end
+
+NS_ASSUME_NONNULL_END

@@ -9,7 +9,7 @@
 #import "ViewController.h"
 #import "GlobalTimelineViewController.h"
 #import <YYCache/YYCache.h>
-#import "LYHTTPClient.h"
+#import "LLHTTPClient.h"
 @interface ViewController ()
 
 @end

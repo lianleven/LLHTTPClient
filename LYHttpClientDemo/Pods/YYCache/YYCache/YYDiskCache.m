@@ -11,12 +11,13 @@
 
 #import "YYDiskCache.h"
 #import "YYKVStorage.h"
+#import <UIKit/UIKit.h>
 #import <CommonCrypto/CommonCrypto.h>
 #import <objc/runtime.h>
 #import <time.h>
 
-#define Lock() dispatch_semaphore_wait(_lock, DISPATCH_TIME_FOREVER)
-#define Unlock() dispatch_semaphore_signal(_lock)
+#define Lock() dispatch_semaphore_wait(self->_lock, DISPATCH_TIME_FOREVER)
+#define Unlock() dispatch_semaphore_signal(self->_lock)
 
 static const int extended_data_key;
 
@@ -45,6 +46,36 @@ static NSString *_YYNSStringMD5(NSString *string) {
             ];
 }
 
+/// weak reference for all instances
+static NSMapTable *_globalInstances;
+static dispatch_semaphore_t _globalInstancesLock;
+
+static void _YYDiskCacheInitGlobal() {
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        _globalInstancesLock = dispatch_semaphore_create(1);
+        _globalInstances = [[NSMapTable alloc] initWithKeyOptions:NSPointerFunctionsStrongMemory valueOptions:NSPointerFunctionsWeakMemory capacity:0];
+    });
+}
+
+static YYDiskCache *_YYDiskCacheGetGlobal(NSString *path) {
+    if (path.length == 0) return nil;
+    _YYDiskCacheInitGlobal();
+    dispatch_semaphore_wait(_globalInstancesLock, DISPATCH_TIME_FOREVER);
+    id cache = [_globalInstances objectForKey:path];
+    dispatch_semaphore_signal(_globalInstancesLock);
+    return cache;
+}
+
+static void _YYDiskCacheSetGlobal(YYDiskCache *cache) {
+    if (cache.path.length == 0) return;
+    _YYDiskCacheInitGlobal();
+    dispatch_semaphore_wait(_globalInstancesLock, DISPATCH_TIME_FOREVER);
+    [_globalInstances setObject:cache forKey:cache.path];
+    dispatch_semaphore_signal(_globalInstancesLock);
+}
+
+
 
 @implementation YYDiskCache {
     YYKVStorage *_kv;
@@ -67,12 +98,12 @@ static NSString *_YYNSStringMD5(NSString *string) {
     dispatch_async(_queue, ^{
         __strong typeof(_self) self = _self;
         if (!self) return;
-        dispatch_semaphore_wait(self->_lock, DISPATCH_TIME_FOREVER);
-        [self _trimToCost:self.countLimit];
+        Lock();
+        [self _trimToCost:self.costLimit];
         [self _trimToCount:self.countLimit];
         [self _trimToAge:self.ageLimit];
         [self _trimToFreeDiskSpace:self.freeDiskSpaceLimit];
-        dispatch_semaphore_signal(self->_lock);
+        Unlock();
     });
 }
 
@@ -114,16 +145,26 @@ static NSString *_YYNSStringMD5(NSString *string) {
 
 - (NSString *)_filenameForKey:(NSString *)key {
     NSString *filename = nil;
-    if (_customFilenameBlock) filename = _customFilenameBlock(key);
+    if (_customFileNameBlock) filename = _customFileNameBlock(key);
     if (!filename) filename = _YYNSStringMD5(key);
     return filename;
 }
 
+- (void)_appWillBeTerminated {
+    Lock();
+    _kv = nil;
+    Unlock();
+}
+
 #pragma mark - public
+
+- (void)dealloc {
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIApplicationWillTerminateNotification object:nil];
+}
 
 - (instancetype)init {
     @throw [NSException exceptionWithName:@"YYDiskCache init error" reason:@"YYDiskCache must be initialized with a path. Use 'initWithPath:' or 'initWithPath:inlineThreshold:' instead." userInfo:nil];
-    return [self initWithPath:nil inlineThreshold:0];
+    return [self initWithPath:@"" inlineThreshold:0];
 }
 
 - (instancetype)initWithPath:(NSString *)path {
@@ -134,6 +175,9 @@ static NSString *_YYNSStringMD5(NSString *string) {
              inlineThreshold:(NSUInteger)threshold {
     self = [super init];
     if (!self) return nil;
+    
+    YYDiskCache *globalCache = _YYDiskCacheGetGlobal(path);
+    if (globalCache) return globalCache;
     
     YYKVStorageType type;
     if (threshold == 0) {
@@ -159,6 +203,9 @@ static NSString *_YYNSStringMD5(NSString *string) {
     _autoTrimInterval = 60;
     
     [self _trimRecursively];
+    _YYDiskCacheSetGlobal(self);
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(_appWillBeTerminated) name:UIApplicationWillTerminateNotification object:nil];
     return self;
 }
 
@@ -295,9 +342,9 @@ static NSString *_YYNSStringMD5(NSString *string) {
             if (end) end(YES);
             return;
         }
-        dispatch_semaphore_wait(self->_lock, DISPATCH_TIME_FOREVER);
+        Lock();
         [_kv removeAllItemsWithProgressBlock:progress endBlock:end];
-        dispatch_semaphore_signal(self->_lock);
+        Unlock();
     });
 }
 
@@ -393,6 +440,19 @@ static NSString *_YYNSStringMD5(NSString *string) {
 - (NSString *)description {
     if (_name) return [NSString stringWithFormat:@"<%@: %p> (%@:%@)", self.class, self, _name, _path];
     else return [NSString stringWithFormat:@"<%@: %p> (%@)", self.class, self, _path];
+}
+
+- (BOOL)errorLogsEnabled {
+    Lock();
+    BOOL enabled = _kv.errorLogsEnabled;
+    Unlock();
+    return enabled;
+}
+
+- (void)setErrorLogsEnabled:(BOOL)errorLogsEnabled {
+    Lock();
+    _kv.errorLogsEnabled = errorLogsEnabled;
+    Unlock();
 }
 
 @end

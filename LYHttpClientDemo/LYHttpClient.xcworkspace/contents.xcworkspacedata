@@ -2,7 +2,7 @@
 <Workspace
    version = "1.0">
    <FileRef
-      location = "group:LYHttpClient.xcodeproj">
+      location = "group:/Users/lianleven/Desktop/MyObject/LLHTTPClient/LYHttpClientDemo/LLHTTPClient.xcodeproj">
    </FileRef>
    <FileRef
       location = "group:Pods/Pods.xcodeproj">

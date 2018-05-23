@@ -16,7 +16,7 @@ typedef NS_ENUM(NSUInteger, LYHTTPClientRequestCachePolicy){
 
 extern  NSString * const LYHTTPClientRequestCache;///< 缓存的name
 
-@interface LYHTTPClient : AFHTTPSessionManager
+@interface LLHTTPClient : AFHTTPSessionManager
 
 /// 默认 LYHTTPClientReturnCacheDataThenLoad 的缓存方式 默认超时时间30s 可以设置。
 + (NSURLSessionDataTask *)GET:(NSString *)URLString

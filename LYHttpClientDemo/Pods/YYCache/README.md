@@ -1,4 +1,4 @@
-YYCache <a href="#中文介绍">中文介绍</a>
+YYCache
 ==============
 
 [![License MIT](https://img.shields.io/badge/license-MIT-green.svg?style=flat)](https://raw.githubusercontent.com/ibireme/YYCache/master/LICENSE)&nbsp;
@@ -20,7 +20,7 @@ Performance
 ![Disk benchmark result](https://raw.github.com/ibireme/YYCache/master/Benchmark/Result_disk.png
 )
 
-You may [download](http://www.sqlite.org/download.html) and compile the lastest version of sqlite and ignore the libsqlite3.dylib in iOS system to get higher performance.
+You may [download](http://www.sqlite.org/download.html) and compile the latest version of sqlite and ignore the libsqlite3.dylib in iOS system to get higher performance.
 
 See `Benchmark/CacheBenchmark.xcodeproj` for more benchmark case.
 
@@ -44,7 +44,7 @@ Installation
 
 ### CocoaPods
 
-1. Add `pod "YYCache"` to your Podfile.
+1. Add `pod 'YYCache'` to your Podfile.
 2. Run `pod install` or `pod update`.
 3. Import \<YYCache/YYCache.h\>.
 
@@ -76,7 +76,7 @@ You can also install documentation locally using [appledoc](https://github.com/t
 
 Requirements
 ==============
-This library requires a deployment target of iOS 6.0 or greater.
+This library requires `iOS 6.0+` and `Xcode 7.0+`.
 
 
 License
@@ -125,7 +125,7 @@ iPhone 6 上，磁盘缓存每秒响应次数 (越高越好):
 
 ### CocoaPods
 
-1. 在 Podfile 中添加 `pod "YYCache"`。
+1. 在 Podfile 中添加 `pod 'YYCache'`。
 2. 执行 `pod install` 或 `pod update`。
 3. 导入 \<YYCache/YYCache.h\>。
 
@@ -156,7 +156,7 @@ iPhone 6 上，磁盘缓存每秒响应次数 (越高越好):
 
 系统要求
 ==============
-该项目最低支持 iOS 6.0。
+该项目最低支持 `iOS 6.0` 和 `Xcode 7.0`。
 
 
 许可证
@@ -167,3 +167,5 @@ YYCache 使用 MIT 许可证，详情见 LICENSE 文件。
 相关链接
 ==============
 [YYCache 设计思路与技术细节](http://blog.ibireme.com/2015/10/26/yycache/)
+
+

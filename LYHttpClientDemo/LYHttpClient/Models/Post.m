@@ -24,7 +24,7 @@
 #import "User.h"
 
 #import "AFAppDotNetAPIClient.h"
-#import "LYHTTPClient.h"
+#import "LLHTTPClient.h"
 @implementation Post
 
 - (instancetype)initWithAttributes:(NSDictionary *)attributes {
@@ -44,7 +44,7 @@
 #pragma mark -
 
 + (NSURLSessionDataTask *)globalTimelinePostsWithBlock:(void (^)(NSArray *posts, NSError *error))block {
-    return [LYHTTPClient GET:@"stream/0/posts/stream/global" parameters:nil success:^(NSURLSessionDataTask *task, id responseObject) {
+    return [LLHTTPClient GET:@"stream/0/posts/stream/global" parameters:nil success:^(NSURLSessionDataTask *task, id responseObject) {
         NSArray *postsFromResponse = [responseObject valueForKeyPath:@"data"];
         NSMutableArray *mutablePosts = [NSMutableArray arrayWithCapacity:[postsFromResponse count]];
         for (NSDictionary *attributes in postsFromResponse) {

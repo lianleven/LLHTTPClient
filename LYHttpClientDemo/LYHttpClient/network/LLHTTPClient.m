@@ -6,7 +6,7 @@
 //  Copyright © 2015年 LianLeven. All rights reserved.
 //
 
-#import "LYHTTPClient.h"
+#import "LLHTTPClient.h"
 #import <YYCache/YYCache.h>
 #import "NSJSONSerialization+LYJSON.h"
 static NSString * const LYHTTPClientURLString = @"https://api.app.net/";
@@ -16,7 +16,7 @@ typedef NS_ENUM(NSUInteger, LYHTTPClientRequestType) {
     LYHTTPClientRequestTypeGET = 0,
     LYHTTPClientRequestTypePOST,
 };
-@implementation LYHTTPClient
+@implementation LLHTTPClient
 
 #pragma mark - public
 //优先使用缓存
@@ -116,32 +116,32 @@ typedef NS_ENUM(NSUInteger, LYHTTPClientRequestType) {
                                cacheKey:(NSString *)cacheKey
                                 success:(void (^)(NSURLSessionDataTask *task, id responseObject))success
                                 failure:(void (^)(NSURLSessionDataTask *task, NSError *error))failure{
-     LYHTTPClient *manager = [LYHTTPClient sharedClient];
+     LLHTTPClient *manager = [LLHTTPClient sharedClient];
      [manager.requestSerializer willChangeValueForKey:@"timeoutInterval"];
      manager.requestSerializer.timeoutInterval = timeoutInterval;
      [manager.requestSerializer didChangeValueForKey:@"timeoutInterval"];
     switch (type) {
         case LYHTTPClientRequestTypeGET:{
-            return [manager GET:URLString parameters:parameters success:^(NSURLSessionDataTask * _Nonnull task, id  _Nonnull responseObject) {
+            return [manager GET:URLString parameters:parameters progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
                 if ([responseObject isKindOfClass:[NSData class]]) {
                     responseObject = [NSJSONSerialization objectWithJSONData:responseObject];
                 }
                 [cache setObject:responseObject forKey:cacheKey];//YYCache 已经做了responseObject为空处理
-                success(task,responseObject);
+                !success?:success(task,responseObject);
             } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-                failure(task, error);
+                !failure?:failure(task, error);
             }];
             break;
         }
         case LYHTTPClientRequestTypePOST:{
-            return [manager POST:URLString parameters:parameters success:^(NSURLSessionDataTask * _Nonnull task, id  _Nonnull responseObject) {
+            return [manager POST:URLString parameters:parameters progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
                 if ([responseObject isKindOfClass:[NSData class]]) {
                     responseObject = [NSJSONSerialization objectWithJSONData:responseObject];
                 }
                 [cache setObject:responseObject forKey:cacheKey];//YYCache 已经做了responseObject为空处理
-                success(task,responseObject);
+                !success?:success(task,responseObject);
             } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-                failure(task, error);
+                !failure?:failure(task, error);
             }];
             break;
         }
@@ -155,7 +155,7 @@ typedef NS_ENUM(NSUInteger, LYHTTPClientRequestType) {
     NSURL *URL = [NSURL URLWithString:URLString];
     NSURLRequest *request = [NSURLRequest requestWithURL:URL];
     NSURL *fileUrl = [NSURL fileURLWithPath:filePath];
-    NSURLSessionUploadTask *uploadTask = [[LYHTTPClient client] uploadTaskWithRequest:request fromFile:fileUrl progress:nil completionHandler:^(NSURLResponse *response, id responseObject, NSError *error) {
+    NSURLSessionUploadTask *uploadTask = [[LLHTTPClient client] uploadTaskWithRequest:request fromFile:fileUrl progress:nil completionHandler:^(NSURLResponse *response, id responseObject, NSError *error) {
         if (error) {
             NSLog(@"Error: %@", error);
         } else {
@@ -166,17 +166,17 @@ typedef NS_ENUM(NSUInteger, LYHTTPClientRequestType) {
     return uploadTask;
 }
 + (instancetype)sharedClient{
-    static LYHTTPClient *sharedClient = nil;
+    static LLHTTPClient *sharedClient = nil;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
-        sharedClient = [LYHTTPClient client];
+        sharedClient = [LLHTTPClient client];
         
     });
     return sharedClient;
 }
 + (instancetype)client{
     NSURLSessionConfiguration *configuration = [NSURLSessionConfiguration defaultSessionConfiguration];
-   return [[LYHTTPClient alloc] initWithBaseURL:[NSURL URLWithString:LYHTTPClientURLString] sessionConfiguration:configuration];
+   return [[LLHTTPClient alloc] initWithBaseURL:[NSURL URLWithString:LYHTTPClientURLString] sessionConfiguration:configuration];
     
 }
 @end
