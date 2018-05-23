@@ -6,9 +6,9 @@
 //  Copyright © 2015年 LianLeven. All rights reserved.
 //
 
-#import "NSJSONSerialization+LYJSON.h"
+#import "NSJSONSerialization+LLJSON.h"
 
-@implementation NSJSONSerialization (LYJSON)
+@implementation NSJSONSerialization (LLJSON)
 + (nullable NSString *)stringWithJSONObject:(nonnull id)JSONObject
 {
     if (![NSJSONSerialization isValidJSONObject:JSONObject]){

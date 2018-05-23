@@ -8,7 +8,7 @@
 
 #import "LLHTTPClient.h"
 #import <YYCache/YYCache.h>
-#import "NSJSONSerialization+LYJSON.h"
+#import "NSJSONSerialization+LLJSON.h"
 static NSString * const LLHTTPClientURLString = @"https://api.app.net/";
 NSString * const LLHTTPClientRequestCache = @"LLHTTPClientRequestCache";
 static NSTimeInterval const LLHTTPClientTimeoutInterval = 30;

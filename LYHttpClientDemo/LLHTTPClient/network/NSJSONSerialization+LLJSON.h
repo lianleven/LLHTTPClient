@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
-@interface NSJSONSerialization (LYJSON)
+@interface NSJSONSerialization (LLJSON)
 + (nullable NSString *)stringWithJSONObject:(nonnull id)JSONObject;
 + (nullable id)objectWithJSONString:(nonnull NSString *)JSONString;
 + (nullable id)objectWithJSONData:(nonnull NSData *)JSONData;
